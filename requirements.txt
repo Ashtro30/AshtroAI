@@ -1,0 +1,22 @@
+# Orchestration
+langgraph>=0.2.50
+pydantic>=2.5
+
+# LLM interface (local Ollama + cloud providers)
+litellm>=1.50
+
+# Memory & RAG
+chromadb>=0.5
+sentence-transformers>=3.0
+
+# Python evaluator tool
+numpy>=1.26
+pandas>=2.1
+
+# UI
+streamlit>=1.40
+
+# Config
+python-dotenv>=1.0
+
+# Development / evaluation extras (optional):  pip install pytest

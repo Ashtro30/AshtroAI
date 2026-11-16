@@ -1,0 +1,28 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+
+# Ashtro runtime state (vector DB, task boards) and eval sandbox
+.ashtro/
+.ashtro_eval/
+
+# Generated outputs (keep the folder)
+outputs/*
+!outputs/.gitkeep
+
+# Benchmark artefacts (keep the folder; the README table is the record)
+eval/results/*
+!eval/results/.gitkeep
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

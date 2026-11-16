@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "description": "15 multi-step prompts evaluating tool selection and task completion. Ground truth derives from data/*.md and data/quarterly_sales.csv. Numbers in answers are compared after stripping thousands separators.",
+  "tasks": [
+    {
+      "id": 1,
+      "category": "rag",
+      "prompt": "According to the company handbook, how many remote work days per week are allowed, and what are the core collaboration hours?",
+      "expected_tools": ["search_documents"],
+      "answer_regex": ["\\b3\\b", "10:00"]
+    },
+    {
+      "id": 2,
+      "category": "rag",
+      "prompt": "What is the maximum radio range and the battery capacity of the Aurora Sensor Hub?",
+      "expected_tools": ["search_documents"],
+      "answer_regex": ["12\\s*km", "4800"]
+    },
+    {
+      "id": 3,
+      "category": "python",
+      "prompt": "If I invest 15,000 at 7.5% annual interest compounded monthly for 12 years, what is the final value? Round to 2 decimals.",
+      "expected_tools": ["python_eval"],
+      "answer_regex": ["36790\\.86"]
+    },
+    {
+      "id": 4,
+      "category": "python",
+      "prompt": "Compute the sum of the first 10 Fibonacci numbers (starting 0, 1, 1, 2, ...) and also find the 20th prime number.",
+      "expected_tools": ["python_eval"],
+      "answer_regex": ["\\b88\\b", "\\b71\\b"]
+    },
+    {
+      "id": 5,
+      "category": "python_csv",
+      "prompt": "Using quarterly_sales.csv in the data folder, which region had the highest total revenue across all quarters, and what was that total?",
+      "expected_tools": ["python_eval"],
+      "answer_regex": ["East", "551250"]
+    },
+    {
+      "id": 6,
+      "category": "python_csv",
+      "prompt": "From quarterly_sales.csv, compute total revenue across all regions for Q1 and for Q4, and the percentage change from Q1 to Q4 rounded to 1 decimal place.",
+      "expected_tools": ["python_eval"],
+      "answer_regex": ["371455", "450940", "21\\.4"]
+    },
+    {
+      "id": 7,
+      "category": "rag_python",
+      "prompt": "Look up the Aurora Sensor Hub's list price and volume discount tiers, then calculate the total cost of an order of 137 units after the applicable discount.",
+      "expected_tools": ["search_documents", "python_eval"],
+      "answer_regex": ["31383\\.96"]
+    },
+    {
+      "id": 8,
+      "category": "rag_python",
+      "prompt": "Using the Aurora Sensor Hub spec, estimate the battery life in days at the default duty cycle. Find the battery capacity and current draws in the documents, then compute it.",
+      "expected_tools": ["search_documents", "python_eval"],
+      "answer_regex": ["\\b692\\b"]
+    },
+    {
+      "id": 9,
+      "category": "rag_report",
+      "prompt": "Summarize the incident severity levels from the runbook and save the summary as a markdown report named incident_summary.md.",
+      "expected_tools": ["search_documents", "generate_report"],
+      "expected_file": "incident_summary.md",
+      "file_regex": ["SEV1", "SEV2", "SEV3"],
+      "answer_regex": ["incident_summary\\.md"]
+    },
+    {
+      "id": 10,
+      "category": "rag_report",
+      "prompt": "Create a checklist file called security_checklist.md covering the password and key-rotation requirements from the security policy.",
+      "expected_tools": ["search_documents", "generate_report"],
+      "expected_file": "security_checklist.md",
+      "file_regex": ["\\b14\\b", "\\b90\\b"],
+      "answer_regex": ["security_checklist\\.md"]
+    },
+    {
+      "id": 11,
+      "category": "python_report",
+      "prompt": "Analyze quarterly_sales.csv: compute total revenue per region, then write the analysis to a markdown report named sales_analysis.md.",
+      "expected_tools": ["python_eval", "generate_report"],
+      "expected_file": "sales_analysis.md",
+      "file_regex": ["East", "North", "South", "West", "551250"],
+      "answer_regex": ["sales_analysis\\.md"]
+    },
+    {
+      "id": 12,
+      "category": "planner",
+      "prompt": "Break down the goal 'Launch Aurora Hub firmware v2.5 release' into a task plan with at least 5 tasks and show me the plan.",
+      "expected_tools": ["task_manager"],
+      "observation_regex": ["Created (?:[5-9]|\\d{2,}) tasks"],
+      "answer_regex": ["(?s)(?:1.*2.*3.*4.*5)"]
+    },
+    {
+      "id": 13,
+      "category": "rag_planner",
+      "prompt": "Using the incident runbook, make a task plan for responding to a SEV1 incident, then mark the first task as in progress.",
+      "expected_tools": ["search_documents", "task_manager"],
+      "min_calls": {"task_manager": 2},
+      "observation_regex": ["Created \\d+ tasks", "is now in_progress"]
+    },
+    {
+      "id": 14,
+      "category": "rag_python_report",
+      "prompt": "Find the annual learning budget in the company handbook, compute how many INR per month that works out to, and save the result as benefits_note.md.",
+      "expected_tools": ["search_documents", "python_eval", "generate_report"],
+      "expected_file": "benefits_note.md",
+      "file_regex": ["4166"],
+      "answer_regex": ["4166"]
+    },
+    {
+      "id": 15,
+      "category": "no_tool",
+      "prompt": "What is the capital of France?",
+      "expected_tools": [],
+      "answer_regex": ["Paris"]
+    }
+  ]
+}
